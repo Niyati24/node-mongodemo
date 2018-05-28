@@ -90,12 +90,12 @@ if(!ObjectID.isValid(id))
  return res.status(404).send();
 }
 
-Todo.findByIdAndRemove(id).then((result)=>{
-  if(!result)
+Todo.findByIdAndRemove(id).then((todo)=>{
+  if(!todo)
   {
     return res.status(404).send();
   }
-  return res.send(result);
+  return res.send({todo});
 }).catch((e)=>{
   res.status(400).send();
 });
