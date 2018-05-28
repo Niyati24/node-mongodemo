@@ -69,7 +69,7 @@ var id= req.params.id;
   }
   Todo.findById(id).then((todo)=>{
     if(todo){
-      res.status(200).send(todo);
+      res.status(200).send({todo});
     }
       res.status(404).send();
       
