@@ -1,45 +1,15 @@
-/*var express = require('express');
-var bodyParser = require('body-parser');
 
-var {mongoose} = require('./db/mongoose');
-var {Todo} = require('./models/todo');
-var {User} = require('./models/user');
-
-var app = express();
-
-app.use(bodyParser.json());
-
-
-app.post('/todo',(req,res)=>{
-//    console.log(req.body);
-//craeting new data
-var newTodo = new Todo({
-    text: req.body.text
-});
-
-newTodo.save().then((doc)=>{
-    res.send(doc);
-},(e)=>{
-    res.status(400).send(e);
-    });
-});
-
-app.listen(3000,()=>{
-    console.log('App started');
-});
-
-module.exports={app};
-*/
 const _ = require('lodash');
 const express = require('express');
 const bodyParser = require('body-parser');
 const {ObjectID} = require('mongodb');
 
+require('./config/config');
 var {mongoose} = require('./db/mongoose');
 var {Todo} = require('./models/todo');
 var {User} = require('./models/user');
 
-const port = process.env.PORT||3000;
+const port = process.env.PORT;
 
 var app = express();
 
