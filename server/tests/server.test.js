@@ -8,11 +8,13 @@ const {Todo} = require('./../models/todo');
 const todosTestdata = [{
     _id : new ObjectID(),
     text:'Making Meal'
+    
 },
 {
     _id: new ObjectID(),
-    text:'Talking to family members'
-
+    text:'Talking to family members',
+  completed: true,
+  completedAt: 788
 }];
 
 beforeEach((done) => {
@@ -173,4 +175,52 @@ describe('DELETE /todos/:id', () => {
   });
 });
   
+describe('PATCH /todos/:id',()=>{
+  it('completed true',(done)=>{
+ var text = 'make Macrone';
+  var hxid = todosTestdata[0]._id.toHexString();
+  request(app)
+  .patch(`/todos/${hxid}`)
+  .send({completed:true,
+  text:text})  
+.expect(200)
+.expect((res)=>{
+  expect(res.body.todo.completed).toBe(true);
+  expect(res.body.todo.text).toBe(text);
+  expect(res.body.todo.completedAt).toBeA('number');
+
+}).end((err,res)=>{
+  if(err)
+  {
+    return done(err);
+  }
+  Todo.findById(hxid).then((todo)=>{
+
+    expect(todo.completed).toBe(true);
+    done();
+
+  }).catch((e)=>done(e))
+})
+
+  })
+
+
+
+  it('should make completed false',(done)=>{
+    var text = 'make couscous';
+     var hxid = todosTestdata[1]._id.toHexString();
+     request(app)
+     .patch(`/todos/${hxid}`)
+     .send({completed:false,
+     text})  
+   .expect(200)
+   .expect((res)=>{
+     expect(res.body.todo.completed).toBe(false);
+     expect(res.body.todo.text).toBe(text);
+     expect(res.body.todo.completedAt).toNotExist();
+   
+   }).end(done)
+   
+     })
+})
 
